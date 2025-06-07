@@ -55,7 +55,7 @@ func (r *periodic) Run() (err error) {
 		end := time.Date(today.Year(), today.Month(), today.Day(),
 			config.end.Hour(), config.end.Minute(), 0, 0, today.Location())
 
-		buffer := 20 * time.Minute
+		buffer := 30 * time.Minute
 		endPlusBuffer := end.Add(buffer)
 		if now.Before(end) || now.After(endPlusBuffer) {
 			return
@@ -117,6 +117,12 @@ func (r *periodic) execute(ctx context.Context, now time.Time) error {
 		log.Debug(ctx, "no feeds found")
 
 		return nil
+	}
+
+	// Attach labels to feeds.
+	for _, feed := range feeds {
+		feed.Labels = append(feed.Labels, config.labels...)
+		feed.Labels.EnsureSorted()
 	}
 
 	// Notify.

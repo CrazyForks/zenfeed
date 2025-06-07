@@ -6,11 +6,21 @@
 
 **1. AI 版 RSS 阅读器**
 
+* 在线服务
+  * https://zenfeed.xyz
+  * 或 Folo 搜索 zenfeed
+
 **2. 实时 “新闻” 知识库**
 
 **3. 帮你时刻关注 “指定事件” 的秘书（如 “关税政策变化”，“xx 股票波动”）**，并支持整理研究报告
 
-开箱即用的公共服务站：https://zenfeed.xyz (集成 Hacker News，Github Trending，V2EX 热榜等常见公开信源)
+每日研究报告（包含播客）（实验性质） -- 已暂停更新
+* [V2EX](https://v2ex.analysis.zenfeed.xyz/)
+* [LinuxDO](https://linuxdo.analysis.zenfeed.xyz/)
+
+---
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/glidea/zenfeed)
+**！！DeepWiki 的描述并不准确！！！**，但问答质量还行
 
 技术说明文档见：[HLD](docs/tech/hld-zh.md)
 
@@ -54,7 +64,7 @@ zenfeed 是你的智能信息助手。它自动收集、筛选并总结关注的
 
 **For [万物追踪](https://www.wwzzai.com/) 替代品寻觅者** 🔍
 * zenfeed 同样拥有 [信息追踪能力](https://github.com/glidea/zenfeed/blob/main/docs/config-zh.md#%E8%B0%83%E5%BA%A6%E9%85%8D%E7%BD%AE-scheduls)，且更强调高质量，自定义的数据源
-* [AI 首席情报官](https://github.com/TeamWiseFlow/wiseflow?tab=readme-ov-file) 的 RSS 版，灵活版，更接近 PaaS 形态
+* [AI 首席情报官](https://github.com/TeamWiseFlow/wiseflow?tab=readme-ov-file) 的 RSS 版，灵活版，更接近引擎形态
 <details>
   <summary>预览</summary>
   <img src="docs/images/monitoring.png" alt="" width="500">
@@ -94,7 +104,7 @@ zenfeed 是你的智能信息助手。它自动收集、筛选并总结关注的
 ### 1. 安装
 > 最快 1min 拉起
 
-默认使用硅基流动的 Qwen/Qwen2.5-7B-Instruct(免费) 和 Pro/BAAI/bge-m3。如果你还没有硅基账号，使用 [邀请链接](https://cloud.siliconflow.cn/i/U2VS0Q5A) 得 14 元额度
+默认使用硅基流动的 Qwen/Qwen3-8B (免费) 和 Pro/BAAI/bge-m3。如果你还没有硅基账号，使用 [邀请链接](https://cloud.siliconflow.cn/i/U2VS0Q5A) 得 14 元额度
 
 如果需要使用其他厂商或模型，或自定义部署：请编辑下方 **docker-compose.yml**#configs.zenfeed_config.content.
 参考 [配置文档](https://github.com/glidea/zenfeed/blob/main/docs/config-zh.md)
@@ -138,6 +148,14 @@ $env:API_KEY = "硅基流动apikey"; docker-compose -p zenfeed up -d
 以 Cherry Studio 为例，配置 MCP 并连接到 Zenfeed，见 [Cherry Studio MCP](docs/cherry-studio-mcp.md)
 > 默认地址 http://localhost:1301/sse
 
+### 后续
+
+zenfeed 提供了超多的自定义配置，还有很多玩法等待你挖掘。详细请查阅[文档](/docs/)
+
+### Roadmap
+
+[Roadmap](/docs/roadmap-zh.md)
+
 ## 欢迎加群讨论
 > 使用问题请提 Issue，谢绝微信私聊。帮助有类似问题的朋友
 
@@ -167,6 +185,7 @@ $env:API_KEY = "硅基流动apikey"; docker-compose -p zenfeed up -d
 
 ## 鸣谢
 * 感谢 [eryajf](https://github.com/eryajf) 提供的 [Compose Inline Config](https://github.com/glidea/zenfeed/issues/1) 让部署更易理解
+* [![Powered by DartNode](https://dartnode.com/branding/DN-Open-Source-sm.png)](https://dartnode.com "Powered by DartNode - Free VPS for Open Source")
 
 ## 👏🏻 欢迎贡献
 * 目前还没有规范，只要求一点，“代码一致性”，很重要
