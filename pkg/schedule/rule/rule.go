@@ -18,11 +18,11 @@ package rule
 import (
 	"strings"
 	"time"
-	"unicode/utf8"
 
 	"github.com/pkg/errors"
 
 	"github.com/glidea/zenfeed/pkg/component"
+	"github.com/glidea/zenfeed/pkg/model"
 	"github.com/glidea/zenfeed/pkg/storage/feed"
 	"github.com/glidea/zenfeed/pkg/storage/feed/block"
 )
@@ -38,6 +38,8 @@ type Config struct {
 	Query        string
 	Threshold    float32
 	LabelFilters []string
+	Labels       map[string]string
+	labels       model.Labels
 
 	// Periodic type.
 	EveryDay   string // e.g. "00:00~23:59", or "-22:00~7:00" (yesterday 22:00 to today 07:00)
@@ -58,14 +60,14 @@ func (c *Config) Validate() error { //nolint:cyclop,gocognit
 	if c.Name == "" {
 		return errors.New("name is required")
 	}
-	if c.Query != "" && utf8.RuneCountInString(c.Query) < 5 {
-		return errors.New("query must be at least 5 characters")
-	}
 	if c.Threshold == 0 {
-		c.Threshold = 0.6
+		c.Threshold = 0.5
 	}
 	if c.Threshold < 0 || c.Threshold > 1 {
 		return errors.New("threshold must be between 0 and 1")
+	}
+	if len(c.Labels) > 0 {
+		c.labels.FromMap(c.Labels)
 	}
 	if c.EveryDay != "" && c.WatchInterval != 0 {
 		return errors.New("every_day and watch_interval cannot both be set")

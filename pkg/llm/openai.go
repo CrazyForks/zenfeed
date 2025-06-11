@@ -40,7 +40,7 @@ func newOpenAI(c *Config) LLM {
 	config := oai.DefaultConfig(c.APIKey)
 	config.BaseURL = c.Endpoint
 	client := oai.NewClientWithConfig(config)
-	embeddingSpliter := newEmbeddingSpliter(2048, 64)
+	embeddingSpliter := newEmbeddingSpliter(1536, 64)
 
 	return &openai{
 		Base: component.New(&component.BaseConfig[Config, struct{}]{
@@ -61,9 +61,9 @@ func (o *openai) String(ctx context.Context, messages []string) (value string, e
 	if config.Model == "" {
 		return "", errors.New("model is not set")
 	}
-	msg := make([]oai.ChatCompletionMessage, 0, len(messages))
+	msgs := make([]oai.ChatCompletionMessage, 0, len(messages))
 	for _, m := range messages {
-		msg = append(msg, oai.ChatCompletionMessage{
+		msgs = append(msgs, oai.ChatCompletionMessage{
 			Role:    oai.ChatMessageRoleUser,
 			Content: m,
 		})
@@ -71,7 +71,7 @@ func (o *openai) String(ctx context.Context, messages []string) (value string, e
 
 	req := oai.ChatCompletionRequest{
 		Model:       config.Model,
-		Messages:    msg,
+		Messages:    msgs,
 		Temperature: config.Temperature,
 	}
 
@@ -141,6 +141,6 @@ func (o *openai) Embedding(ctx context.Context, s string) (value []float32, err 
 	promptTokens.WithLabelValues(lvs...).Add(float64(vec.Usage.PromptTokens))
 	completionTokens.WithLabelValues(lvs...).Add(float64(vec.Usage.CompletionTokens))
 	totalTokens.WithLabelValues(lvs...).Add(float64(vec.Usage.TotalTokens))
-	
+
 	return vec.Data[0].Embedding, nil
 }
